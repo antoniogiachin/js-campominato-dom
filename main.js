@@ -75,11 +75,14 @@ function createGrid(value){
                 alert('BOOOMBAAAA!!!');
                 this.classList.add('clicked-bomb');
                 endGameLost(handleClick);
+                const recap = document.createElement('p');
+                console.log(tentativi);
+                recap.innerText= `Sei sopravvissuto a ${tentativi.lenght} caselle! La prossima volta sarai più fortunato`;
+                gridHtml.appendChild(recap);
             } else {
                 tentativi.push(this.innerText);
                 this.classList.add('clicked');
             }
-            console.log(tentativi);
         }
 
         square.addEventListener('click', handleClick);
