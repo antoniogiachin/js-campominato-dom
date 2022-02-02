@@ -1,0 +1,110 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* generali */
+.d-flex-ct{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.d-flex-sb{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.d-none{
+    display: none;
+}
+
+.me-10{
+    margin-right: 10px;
+}
+
+/* header */
+
+header, footer{
+    background-color: aliceblue;
+    padding: 25px 0px;
+    height: 80px;
+}
+
+span{
+    font-size: 1.2em;
+}
+
+select, button {
+    display: inline-block;
+    padding: 0px 10px;
+}
+
+.container{
+    width: 80%;
+    margin:auto;
+}
+
+/* main */
+main{
+    width: 100%;
+    height: calc(100vh - 160px);
+    background-color: #7FFFD4;
+}
+
+.container-main{
+    width: 500px;
+    margin: 50px auto;
+    border: solid 2px #000;    
+}
+
+.container-main::after{
+    display: table;
+    content: "";
+    clear: both;
+}
+
+#grid, #grid2, #grid3{
+    height: 500px;
+}
+
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #222;
+    font-weight: bold;
+    border: 2px solid #000;
+    
+    float: left;
+}
+
+.sq-easy{
+    width: calc(100% / 10);
+    height: calc(100% / 10);
+}
+
+.sq-medium{
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+}
+
+.sq-hard{
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+}
+/* classe per il click al colore */
+.clicked{
+    background-color: #6395ED;
+}
+
+.clicked-bomb{
+    background-color: #f00;
+}
+
+.remove-click{
+    pointer-events: none;
+}
