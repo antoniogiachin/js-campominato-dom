@@ -73,7 +73,7 @@ function createGrid(value){
                 console.log(parseInt(allSquares[i].innerText));
 
                 if(bombe.includes((parseInt(allSquares[i].innerText)))){
-                    
+                    allSquares[i].classList.add('clicked-bomb');
                 }
 
             }   
