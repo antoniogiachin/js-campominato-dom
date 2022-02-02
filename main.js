@@ -17,6 +17,8 @@ play.addEventListener('click',
 
 );
 
+/* ---- Funzioni ---- */
+
 // Funzione generale creazione e gestione grid
 function createGrid(value){
 
@@ -85,6 +87,8 @@ function createGrid(value){
             
             //Creo e inietto recap
             const recapHtml = document.createElement('h4');
+            recapHtml.style.color ='red';
+            recapHtml.classList.add('recap');
             recapHtml.innerText = `Sei sopravvissuto a: ${tentativi.length} tentativi, forse la prossima volta sarai più fortunato!`;
             gridHtml.append(recapHtml);
 
