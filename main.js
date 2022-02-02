@@ -1,93 +1,43 @@
-// Mi riferisco a bottone play
-const play = document.getElementById('play');
+const playButton = document.getElementById('play');
 
-/* ----- FUNZIONI ------ */
-// Funzione per numero casuale
-function casualNumber (min, max){
-    return Math.floor(Math.random() * (max - min+1)+min);
-}
+play.addEventListener('click',
 
-// funzione per creazione bombe
+    function(){
 
-function createBombArray(bombNumber, maxValue){
+        // Mi riferisco al valore difficoltà
+        const difficultyValue = document.getElementById('difficulty-select').value;
 
-    const bombArray=[];
+        
 
-    while(bombArray.length < bombNumber){
+        createGrid(difficultyValue);
 
-        const bombId = casualNumber(1, maxValue);
-
-        // Evito che due numeri si ripetano
-        if(!bombArray.includes(bombId)){
-            bombArray.push(bombId);
-            
-        }
 
     }
 
-    console.log(bombArray);
-    return bombArray;
-}
 
-// Blocco click finale
-function endGameLost(valore){
-    const allSquares = document.getElementsByClassName('square');
-    for(let i = 0; i < allSquares.length; i++){
-        // allSquares[i].removeEventListener('click', valore); -- Non so perchè non mi funziona
-        allSquares[i].classList.add('remove-click');
-    }
-}
+);
 
-// Funzione che crea grid
+// Funzione generale creazione e gestione grid
 function createGrid(value){
 
-    // Mi riferisco a div #grid
     const gridHtml = document.getElementById('grid');
 
-    // Array tentativi
-    const tentativi =[];
-
-    // Svuoto grid
-    gridHtml.innerHTML ='';
-
-    // Creo le bombe
-    const bombe = createBombArray(16, value);
+    // Genero array bombe
+    const bombe = arrayBomb(value);
     console.log(bombe);
 
-    // Ciclo for e creo squares a seconda del value inserito
+    //Array tentativi
+    const tentativi =[];
+    
+    // Svuoto html
+    gridHtml.innerHTML='';
+
     for(let i = 1; i <= value; i++){
 
         const square = document.createElement('div');
 
         square.classList.add('square');
 
-        square.innerText = i;
-
-        //funzione gestione click square
-        function handleClick(){
-
-            this.removeEventListener('click', handleClick);
-
-            console.log(this.innerText);
-            
-            // Verifico presenza bombe
-            if(bombe.includes(parseInt(this.innerText))){
-                alert('BOOOMBAAAA!!!');
-                this.classList.add('clicked-bomb');
-                endGameLost(handleClick);
-                const recap = document.createElement('p');
-                console.log(tentativi);
-                recap.innerText= `Sei sopravvissuto a ${tentativi.lenght} caselle! La prossima volta sarai più fortunato`;
-                gridHtml.appendChild(recap);
-            } else {
-                tentativi.push(this.innerText);
-                this.classList.add('clicked');
-            }
-        }
-
-        square.addEventListener('click', handleClick);
-
-        // dimensione a seconda di value
         if(value == 100){
             square.classList.add('sq-easy');
         } else if (value == 81){
@@ -95,8 +45,12 @@ function createGrid(value){
         } else {
             square.classList.add('sq-hard');
         }
+        
+        square.innerText = i;
 
         gridHtml.appendChild(square);
+
+        square.addEventListener('click', clickHandler);
 
     }
 
@@ -105,24 +59,65 @@ function createGrid(value){
     welcomeHtml.classList.add('d-none');
     gridHtml.classList.remove('d-none');
 
-    
+    // Funzione gestione click
+    function clickHandler(){
+        
+        this.removeEventListener('click', clickHandler);
+
+        // Se prendo bomba
+        if(bombe.includes(parseInt(this.innerText))){
+            alert('BOOOOM!!!');
+
+            //Aggiungo colore rosso e rimuovo click
+            this.classList.add('clicked-bomb');
+            const allSquares = document.getElementsByClassName('square');
+            for(let i = 0; i < allSquares.length; i++){
+                // allSquares[i].removeEventListener('click', valore); -- Non so perchè non mi funziona
+                allSquares[i].classList.add('remove-click');
+
+                console.log(parseInt(allSquares[i].innerText));
+
+                if(bombe.includes((parseInt(allSquares[i].innerText)))){
+                    allSquares[i].classList.add('clicked-bomb');
+                }
+
+            }   
+            
+            //Creo e inietto recap
+            const recapHtml = document.createElement('h4');
+            recapHtml.innerText = `Sei sopravvissuto a: ${tentativi.length} tentativi, forse la prossima volta sarai più fortunato!`;
+            gridHtml.append(recapHtml);
+
+
+
+        } else {
+            this.classList.add('clicked');
+            tentativi.push(this.innerText);
+        }    
+        console.log(tentativi.length);
+    }
 }
 
 
 
-// Ascoltatore di eventi per play
-play.addEventListener('click',
+// funzione numero random
+function randomNumber(min, max){
+    return Math.floor(Math.random() * (max - min+1)+min);
+}
 
-    function(){
-        // Richiamo il valore
-        const difficultyValue = document.getElementById('difficulty-select').value;
+// funzione creazione array bombe
+function arrayBomb(value){
+    
+    const arrayBomb =[];
 
-        createGrid(difficultyValue);
+    while(arrayBomb.length < 16){
+         const bombId = randomNumber(1 , value);
 
-        
-
-
+        if(!arrayBomb.includes(bombId)){
+            arrayBomb.push(bombId);
+        }    
     }
 
-);
+    return arrayBomb;
 
+}
